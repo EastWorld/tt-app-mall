@@ -1,0 +1,30 @@
+@import 'weui/weui.ttss';
+
+.container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+} 
+.wxParse-img {
+  display: block !important;
+}
+.space {
+  height:20rpx;
+  background-color: #F2f2f2;
+}
+.safeAreaOldPaddingBttom {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+.safeAreaNewPaddingBttom{
+  padding-bottom: constant(safe-area-inset-bottom);  
+}
+
+.safeAreaOldMarginBttom {
+  margin-bottom: env(safe-area-inset-bottom);
+}
+.safeAreaNewMarginBttom{
+  margin-bottom: constant(safe-area-inset-bottom);  
+}
