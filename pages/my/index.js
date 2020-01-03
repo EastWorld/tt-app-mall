@@ -1,6 +1,6 @@
 const app = getApp()
 const CONFIG = require('../../config.js')
-const WXAPI = require('../../utils/apifm-wxapi')
+const WXAPI = require('../../utils/apifm-ttapi')
 const AUTH = require('../../utils/auth')
 
 Page({

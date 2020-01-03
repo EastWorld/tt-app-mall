@@ -1,13 +1,11 @@
-/* eslint-disable */
-// 小程序开发api接口工具包，https://github.com/gooking/wxapi
+const version = '3.0.0';
 var API_BASE_URL = 'https://api.it120.cc'
-// var API_BASE_URL = 'http://127.0.0.1:8081'
-var subDomain = 'tz'
+var subDomain = 'tz'   // tz 请改为你自己后台的专属域名，教程：  https://www.it120.cc/help/qr6l4m.html
 
 const request = (url, needSubDomain, method, data) => {
   const _url = API_BASE_URL + (needSubDomain ? '/' + subDomain : '') + url
   return new Promise((resolve, reject) => {
-    wx.request({
+    tt.request({
       url: _url,
       method: method,
       data: data,
@@ -173,12 +171,6 @@ module.exports = {
   alipay: (data) => {
     return request('/pay/alipay/semiAutomatic/payurl', true, 'post', data)
   },
-  login_wx: (code) => {
-    return request('/user/wxapp/login', true, 'post', {
-      code,
-      type: 2
-    })
-  },
   login_tt: (code) => {
     return request('/user/tt/microapp/login', true, 'post', {
       code
@@ -187,16 +179,22 @@ module.exports = {
   login_username: (data) => {
     return request('/user/username/login', true, 'post', data)
   },
-  bindUsername: (token, username, pwd = '') => {
-    return request('/user/username/bindUsername', true, 'post', {
-      token, username, pwd
-    })
+  login_email: (data) => {
+    return request('/user/email/login', true, 'post', data)
+  },
+  loginout: (token) => {
+    return request('/user/loginout', true, 'get', { token })
   },
   login_mobile: (mobile, pwd, deviceId = '', deviceName = '') => {
     return request('/user/m/login', true, 'post', {
       mobile, pwd, deviceId, deviceName
     })
   },
+  bindUsername: (token, username, pwd = '') => {
+    return request('/user/username/bindUsername', true, 'post', {
+      token, username, pwd
+    })
+  },  
   resetPwdUseMobileCode: (mobile, pwd, code) => {
     return request('/user/m/reset-pwd', true, 'post', {
       mobile, pwd, code
@@ -529,16 +527,13 @@ module.exports = {
   ttaQrcode: (data) => {
     return request('/user/tt/microapp/qrcode', true, 'post', data)
   },
-  uploadFile: (token, tempFilePath) => {
+  uploadFile: (tempFilePath) => {
     const uploadUrl = API_BASE_URL + '/' + subDomain + '/dfs/upload/file'
     return new Promise((resolve, reject) => {
-      wx.uploadFile({
+      tt.uploadFile({
         url: uploadUrl,
         filePath: tempFilePath,
         name: 'upfile',
-        formData: {
-          'token': token
-        },
         success(res) {
           resolve(JSON.parse(res.data))
         },
@@ -728,10 +723,7 @@ module.exports = {
   },
   idcardCheck: (token, name, idCardNo) => {
     return request('/user/idcard', true, 'post', { token, name, idCardNo })
-  },
-  loginout: (token) => {
-    return request('/user/loginout', true, 'get', { token })
-  },
+  },  
   userLevelList: (data) => {
     return request('/user/level/list', true, 'post', data)
   },
@@ -837,10 +829,7 @@ module.exports = {
   },
   register_email: (data) => {
     return request('/user/email/register', true, 'post', data)
-  },
-  login_email: (data) => {
-    return request('/user/email/login', true, 'post', data)
-  },
+  },  
   bindEmail: (token, email, code, pwd = '') => {
     return request('/user/email/bindUsername', true, 'post', {
       token, email, code, pwd
@@ -863,5 +852,30 @@ module.exports = {
   },
   cmsArticleFavDeleteByNewsId: (token, newsId) => {
     return request('/cms/news/fav/delete', true, 'post', { token, newsId })
+  },
+  shippingCarInfo: (token) => {
+    return request('/shopping-cart/info', true, 'get', {
+      token
+    })
+  },
+  shippingCarInfoAddItem: (token, goodsId, number, sku) => {
+    return request('/shopping-cart/add', true, 'post', {
+      token, goodsId, number, sku:JSON.stringify(sku)
+    })
+  },
+  shippingCarInfoModifyNumber: (token, key, number) => {
+    return request('/shopping-cart/modifyNumber', true, 'post', {
+      token, key, number
+    })
+  },
+  shippingCarInfoRemoveItem: (token, key) => {
+    return request('/shopping-cart/remove', true, 'post', {
+      token, key
+    })
+  },
+  shippingCarInfoRemoveAll: (token) => {
+    return request('/shopping-cart/empty', true, 'post', {
+      token
+    })
   },
 }

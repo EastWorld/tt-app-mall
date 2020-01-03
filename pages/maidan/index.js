@@ -1,4 +1,4 @@
-const WXAPI = require('../../utils/apifm-wxapi')
+const WXAPI = require('../../utils/apifm-ttapi')
 const wxpay = require('../../utils/pay.js')
 const AUTH = require('../../utils/auth')
 

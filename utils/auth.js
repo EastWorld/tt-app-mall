@@ -1,4 +1,4 @@
-const WXAPI = require('apifm-wxapi')
+const WXAPI = require('apifm-ttapi.js')
 
 // 检测登录状态，返回 true / false
 async function checkHasLogined() {

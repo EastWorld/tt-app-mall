@@ -1,6 +1,6 @@
 const app = getApp();
 const WxParse = require('../../wxParse/wxParse.js');
-const WXAPI = require('../../utils/apifm-wxapi')
+const WXAPI = require('../../utils/apifm-ttapi')
 Page({
 
   /**

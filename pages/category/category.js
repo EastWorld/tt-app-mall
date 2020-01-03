@@ -1,6 +1,6 @@
 // pages/category/category.js
 
-const WXAPI = require('../../utils/apifm-wxapi')
+const WXAPI = require('../../utils/apifm-ttapi')
 
 Page({
   /**

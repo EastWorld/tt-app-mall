@@ -1,4 +1,4 @@
-const WXAPI = require('../../utils/apifm-wxapi')
+const WXAPI = require('../../utils/apifm-ttapi')
 let goodsDetail;
 const clientWidth = tt.getSystemInfoSync().screenWidth;
 var ctx;

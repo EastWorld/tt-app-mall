@@ -1,4 +1,4 @@
-const WXAPI = require('../../utils/apifm-wxapi')
+const WXAPI = require('../../utils/apifm-ttapi')
 //获取应用实例
 var app = getApp()
 Page({

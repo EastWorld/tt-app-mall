@@ -1,4 +1,4 @@
-const WXAPI = require('../../utils/apifm-wxapi')
+const WXAPI = require('../../utils/apifm-ttapi')
 const CONFIG = require('../../config.js')
 //获取应用实例
 var app = getApp();

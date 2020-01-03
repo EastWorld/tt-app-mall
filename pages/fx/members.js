@@ -1,5 +1,5 @@
 const app = getApp()
-const WXAPI = require('../../utils/apifm-wxapi')
+const WXAPI = require('../../utils/apifm-ttapi')
 
 var sliderWidth = 96;
 Page({

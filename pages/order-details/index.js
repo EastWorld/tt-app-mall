@@ -1,6 +1,6 @@
 const app = getApp();
 const CONFIG = require('../../config.js')
-const WXAPI = require('../../utils/apifm-wxapi')
+const WXAPI = require('../../utils/apifm-ttapi')
 Page({
     data:{
       orderId:0,

@@ -26,7 +26,7 @@
 
 本项目未有开发配套的后台系统，而是直接使用了 [api 工厂](https://www.it120.cc/) 提供的免费接口和后台，可以完全满足本项目的所有功能需求。
 
-- [接口 SDK](https://github.com/gooking/apifm-wxapi)
+- [接口 SDK](https://github.com/gooking/apifm-ttapi)
 
 - [免费后台](https://admin.it120.cc)
 

@@ -1,6 +1,6 @@
 import initCalendar from '../../template/calendar/index';
 import { setTodoLabels } from '../../template/calendar/index';
-const WXAPI = require('../../utils/apifm-wxapi')
+const WXAPI = require('../../utils/apifm-ttapi')
 const AUTH = require('../../utils/auth')
 
 let interstitialAd = null

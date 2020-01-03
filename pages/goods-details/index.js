@@ -1,4 +1,4 @@
-const WXAPI = require('../../utils/apifm-wxapi')
+const WXAPI = require('../../utils/apifm-ttapi')
 const app = getApp();
 const WxParse = require('../../wxParse/wxParse.js');
 const ApifmShare = require('../../template/share/index.js');

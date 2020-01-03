@@ -1,4 +1,4 @@
-const WXAPI = require('../../utils/apifm-wxapi')
+const WXAPI = require('../../utils/apifm-ttapi')
 const AUTH = require('../../utils/auth')
 
 var sliderWidth = 96; // 需要设置slider的宽度，用于计算中间位置

@@ -1,4 +1,4 @@
-const WXAPI = require('apifm-wxapi')
+const WXAPI = require('apifm-ttapi')
 
 /**
  * type: order 支付订单 recharge 充值 paybill 优惠买单
