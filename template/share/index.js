@@ -25,12 +25,9 @@ function _createPoster(e) {
 async function _drawQrcode() {
   const _this = this
   const ttaQrcodeParams = {
-    path: 'pages%2fgoods-details%2findex%3fid%3d'+ _this.data.goodsDetail.basicInfo.id +'%26inviter_id%3d' + wx.getStorageSync('uid'),
+    path: 'pages/goods-details/index?id='+ _this.data.goodsDetail.basicInfo.id +'&inviter_id=' + wx.getStorageSync('uid'),
   }
-  const qrcodeRes = await WXAPI.ttaQrcode({
-    content: JSON.stringify(ttaQrcodeParams),
-    expireHours: 1
-  })
+  const qrcodeRes = await WXAPI.ttaQrcode(ttaQrcodeParams, 1)
   if (qrcodeRes.code != 0) {
     wx.showModal({
       title: '错误',

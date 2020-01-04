@@ -1,4 +1,4 @@
-const version = '3.0.0';
+const version = '4.0.0';
 var API_BASE_URL = 'https://api.it120.cc'
 var subDomain = 'tz'   // tz 请改为你自己后台的专属域名，教程：  https://www.it120.cc/help/qr6l4m.html
 
@@ -521,11 +521,11 @@ module.exports = {
   fxCommisionLog: (data) => {
     return request('/saleDistribution/commision/log', true, 'post', data)
   },
-  wxaQrcode: (data) => {
-    return request('/qrcode/wxa/unlimit', true, 'post', data)
-  },
-  ttaQrcode: (data) => {
-    return request('/user/tt/microapp/qrcode', true, 'post', data)
+  ttaQrcode: (paramsJson, expireHours) => {
+    return request('/user/tt/microapp/qrcode', true, 'post', {
+      content: JSON.stringify(paramsJson),
+      expireHours
+    })
   },
   uploadFile: (tempFilePath) => {
     const uploadUrl = API_BASE_URL + '/' + subDomain + '/dfs/upload/file'

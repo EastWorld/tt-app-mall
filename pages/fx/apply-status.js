@@ -90,12 +90,9 @@ Page({
       mask: true
     })
     const ttaQrcodeParams = {
-      path: 'pages%2findex%2findex%3finviter_id%3d' + wx.getStorageSync('uid'),
+      path: 'pages/index/index?inviter_id=' + wx.getStorageSync('uid'),
     }
-    WXAPI.ttaQrcode({
-      content: JSON.stringify(ttaQrcodeParams),
-      expireHours: 1
-    }).then(res => {
+    WXAPI.ttaQrcode(ttaQrcodeParams, 1).then(res => {
       wx.hideLoading()
       if (res.code == 0) {
         _this.showCanvas(res.data)
