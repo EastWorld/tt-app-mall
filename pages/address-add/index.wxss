@@ -1,7 +1,6 @@
 page{
     height: 100%;
 }
-
 .container{
     background-color: #f5f5f9;
     justify-content: initial;
@@ -45,7 +44,20 @@ page{
 .save-btn,
 .cancel-btn{
     width: 690rpx;
-    margin-top:30rpx;
+    height: 80rpx;
+    line-height: 80rpx;
+    text-align: center;
+    margin-top:30rpx; 
+    border-radius: 6rpx;
+    box-sizing: border-box;
+}
+.save-btn{
+    background-color: #e64340;
+    color:#fff;
+}
+button[type="default"]{
+    background-color: #ffffff;
+    color:#000;
 }
 .addr-details{
     height: auto;
@@ -72,4 +84,10 @@ picker {
 }
 .hui{
     color: #777;
+}
+.showRegionSelect {
+  margin-left: 32rpx;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
