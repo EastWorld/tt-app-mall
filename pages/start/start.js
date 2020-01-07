@@ -1,4 +1,4 @@
-const WXAPI = require('../../utils/apifm-ttapi')
+const TTAPI = require('../../utils/apifm-ttapi')
 const CONFIG = require('../../config.js')
 //获取应用实例
 var app = getApp();
@@ -6,8 +6,7 @@ Page({
   data: {
     banners:[],
     swiperMaxNumber: 0,
-    swiperCurrent: 0,
-    height: wx.getSystemInfoSync().windowHeight
+    swiperCurrent: 0
   },
   onLoad:function(){
     const _this = this
@@ -21,7 +20,7 @@ Page({
       });
     } else {
       // 展示启动页
-      WXAPI.banners({
+      TTAPI.banners({
         type: 'app'
       }).then(function (res) {
         if (res.code == 700) {
@@ -51,7 +50,6 @@ Page({
     })
   },
   goToIndex: function (e) {
-    WXAPI.addTempleMsgFormid(wx.getStorageSync('token'), 'form', e.detail.formId)
     if (app.globalData.isConnected) {
       wx.setStorage({
         key: 'app_show_pic_version',
@@ -66,5 +64,13 @@ Page({
         icon: 'none',
       })
     }
-  }
+  },
+  imgClick(){
+    if (this.data.swiperCurrent + 1 != this.data.swiperMaxNumber) {
+      wx.showToast({
+        title: '左滑进入',
+        icon: 'none',
+      })
+    }
+  },
 });
