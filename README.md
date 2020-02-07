@@ -42,6 +42,10 @@
 
 你将立即享有初始化测试数据，方便你进行测试
 
+## 修改小程序的 appid 为你自己小程序的
+
+<img src="https://dcdn.it120.cc/2020/02/07/5b77e49c-9d31-43b2-a613-4d3f8482c712.png">
+
 ## 编译说明
 
 <img src="https://cdn.nlark.com/yuque/0/2019/png/572726/1575357564594-babb543e-59ec-4605-964c-7f99a42121c6.png?x-oss-process=image/resize,w_1492">
