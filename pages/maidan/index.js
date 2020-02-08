@@ -94,7 +94,6 @@ Page({
   },
   async bindSave(e) {
     const _this = this    
-    WXAPI.addTempleMsgFormid(wx.getStorageSync('token'), 'form', e.detail.formId)
     const amount = e.detail.value.amount;
     if (amount == "" || amount * 1 < 0) {
       wx.showToast({
@@ -151,10 +150,7 @@ Page({
     if (wxpayAmount > 0) {
       wxpay.wxpay('paybill', wxpayAmount, 0, "/pages/asset/index", { money: amount});
     } else {
-      WXAPI.payBill({
-        token: wx.getStorageSync('token'),
-        money: amount
-      }).then(function (res) {
+      WXAPI.payBill(wx.getStorageSync('token'), amount).then(function (res) {
         if (res.code == 0) {
           wx.showModal({
             title: '成功',

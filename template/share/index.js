@@ -1,33 +1,35 @@
 const WXAPI = require('../../utils/apifm-ttapi')
 let goodsDetail;
-const clientWidth = tt.getSystemInfoSync().screenWidth;
 var ctx;
+const clientWidth = wx.getSystemInfoSync().screenWidth;
 
 function px(number) {
   return number * clientWidth / 750;
 }
 
-function init(page) {
-  page._createPoster = this._createPoster;
-  page._drawQrcode = this._drawQrcode;
-  page._saveToMobile = this._saveToMobile;
-}
 
-function _createPoster(e) {
-  wx.showLoading({
-    title: '正在生成海报',
-  });
-  ctx = tt.createCanvasContext('firstCanvas');
-  ctx.setFillStyle('#ffffff');
-  ctx.fillRect(0, 0, px(600), px(1000));
-  this._drawQrcode();
-}
+function  init(page) {
+    page._createPoster = this._createPoster;
+    page._drawQrcode = this._drawQrcode;
+    page._saveToMobile = this._saveToMobile;
+  }
+function  _createPoster(e) {
+    ctx = wx.createCanvasContext('firstCanvas');
+    wx.showLoading({
+      title: '正在生成海报',
+    });
+    ctx.setFillStyle('#fff');
+    ctx.fillRect(0, 0, px(600), px(1000));
+    this._drawQrcode();
+  }
 async function _drawQrcode() {
   const _this = this
-  const ttaQrcodeParams = {
-    path: 'pages/goods-details/index?id='+ _this.data.goodsDetail.basicInfo.id +'&inviter_id=' + wx.getStorageSync('uid'),
-  }
-  const qrcodeRes = await WXAPI.ttaQrcode(ttaQrcodeParams, 1)
+  const qrcodeRes = await WXAPI.wxaQrcode({
+    scene: _this.data.goodsDetail.basicInfo.id + ',' + wx.getStorageSync('uid'),
+    page: 'pages/goods-details/index',
+    is_hyaline: false,
+    expireHours: 1
+  })
   if (qrcodeRes.code != 0) {
     wx.showModal({
       title: '错误',
@@ -42,24 +44,25 @@ async function _drawQrcode() {
   wx.getImageInfo({
     src: _this.data.goodsDetail.basicInfo.pic,
     success(res) {
-      ctx.drawImage(res.path, 0, 0, res.width, res.height, x, y, px(600), px(600))
-      y += px(600)
 
-      // x = px(300);
-      // y = y + 20;
-      // ctx.setFontSize(14)
-      // ctx.setFillStyle('#333')
-      // ctx.setTextAlign('center')
-      // let name = _this.data.goodsDetail.basicInfo.name
-      // ctx.fillText(name, x, y)
+      ctx.drawImage(res.path, 0, 0, res.width, res.height, x + px(50), y, px(500), px(500))
+      y += px(500)
 
-      // x = px(300);
-      // y = y + 30;
-      // ctx.setFontSize(12)
-      // ctx.setFillStyle('#ccc')
-      // ctx.setTextAlign('center')
-      // name = wx.getStorageSync('mallName')
-      // ctx.fillText(name, x, y)
+      x = px(300);
+      y = y + 20;
+      ctx.setFontSize(16)
+      ctx.setFillStyle('#333333')
+      ctx.setTextAlign('center')
+      let name = _this.data.goodsDetail.basicInfo.name
+      ctx.fillText(name, x, y)
+
+      x = px(300);
+      y = y + 30;
+      ctx.setFontSize(18)
+      ctx.setFillStyle('#e64340')
+      ctx.setTextAlign('center')
+      name = _this.data.goodsDetail.basicInfo.minPrice
+      ctx.fillText('￥' + name, x, y)
       y = y - 20
 
       // 写入二维码
@@ -72,7 +75,7 @@ async function _drawQrcode() {
           x = px(300);
           y = y + px(300) + 20;
           ctx.setFontSize(12)
-          ctx.setFillStyle('#aaaaaa')
+          ctx.setFillStyle('#aaa')
           ctx.setTextAlign('center')
           ctx.fillText('长按识别小程序码查看详情', x, y)
 
@@ -86,7 +89,7 @@ async function _drawQrcode() {
     }
   })
 }
-function _saveToMobile() {
+function  _saveToMobile() {
   const _this = this
   wx.canvasToTempFilePath({
     canvasId: 'firstCanvas',
@@ -118,6 +121,7 @@ function _saveToMobile() {
     }
   })
 }
+
 
 module.exports = {
   init: init,

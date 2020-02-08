@@ -2,12 +2,16 @@ const app = getApp()
 const CONFIG = require('../../config.js')
 const WXAPI = require('../../utils/apifm-ttapi')
 const AUTH = require('../../utils/auth')
+const TOOLS = require('../../utils/tools.js')
 
 Page({
 	data: {
+    wxlogin: true,
+
     balance:0.00,
     freeze:0,
     score:0,
+    growth:0,
     score_sign_continuous:0,
     rechargeOpen: false // 是否开启充值[预存]功能
   },
@@ -29,30 +33,16 @@ Page({
       vipLevel: app.globalData.vipLevel
     })
     AUTH.checkHasLogined().then(isLogined => {
+      this.setData({
+        wxlogin: isLogined
+      })
       if (isLogined) {
         _this.getUserApiInfo();
         _this.getUserAmount();
-      } else {
-        AUTH.register(this);
       }
     })
-  },
-  onGotUserInfo(e){
-    if (!e.detail.userInfo) {
-      wx.showToast({
-        title: '您已取消登录',
-        icon: 'none',
-      })
-      return;
-    }
-    if (app.globalData.isConnected) {
-      AUTH.register(this);
-    } else {
-      wx.showToast({
-        title: '当前无网络',
-        icon: 'none',
-      })
-    }
+    // 获取购物车数据，显示TabBarBadge
+    TOOLS.showTabBarBadge();
   },
   aboutUs : function () {
     wx.showModal({
@@ -79,6 +69,9 @@ Page({
     var that = this;
     WXAPI.bindMobileWxa(wx.getStorageSync('token'), e.detail.encryptedData, e.detail.iv).then(function (res) {
       if (res.code === 10002) {
+        this.setData({
+          wxlogin: false
+        })
         return
       }
       if (res.code == 0) {
@@ -117,7 +110,8 @@ Page({
         that.setData({
           balance: res.data.balance.toFixed(2),
           freeze: res.data.freeze.toFixed(2),
-          score: res.data.score
+          score: res.data.score,
+          growth: res.data.growth
         });
       }
     })
@@ -136,5 +130,18 @@ Page({
     wx.navigateTo({
       url: "/pages/order-list/index?type=" + e.currentTarget.dataset.type
     })
+  },
+  cancelLogin() {
+    this.setData({
+      wxlogin: true
+    })
+  },
+  goLogin() {
+    this.setData({
+      wxlogin: false
+    })
+  },
+  processLogin(e) {    
+    AUTH.register(this);
   },
 })

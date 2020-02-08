@@ -1,36 +1,45 @@
-# 头条/抖音小程序商城
+# 微信小程序商城
 
-头条/抖音小程序商城，头条/抖音小程序微店，长期维护版本，欢迎大家踊跃提交贡献代码；
+微信小程序商城，微信小程序微店，长期维护版本，欢迎大家踊跃提交贡献代码；
 
 使用说明和常见问题，可参阅下面的说明，如还有疑问，可访问工厂官网 [https://www.it120.cc/](https://www.it120.cc/) 寻求帮助！
 
-# QQ交流群
+# 今日头条/抖音小程序版本
 
-812019488
+本项目的今日头条/抖音小程序版本，请移步至下面的地址：
 
-# 特别鸣谢
+[https://github.com/EastWorld/tt-app-mall](https://github.com/EastWorld/tt-app-mall)
 
-本项目是基于 “EastWorld” 的 “wechat-app-mall” 的微信小程序商城进行改造，且同步更新，详细功能请参阅微信小程序的版本：
+## 扫码体验
 
-[https://github.com/EastWorld/wechat-app-mall](https://github.com/EastWorld/wechat-app-mall)
+<img src="https://cdn.it120.cc/apifactory/2019/06/28/a8304003-3218-4a47-95cf-84d82ebdc07b.jpg" width="200px">
 
-# 联系作者
+## 其他开源模板
+
+| 舔果果小铺 | 面馆风格小程序 | AI名片 |
+| :------: | :------: | :------: |
+| <img src="https://cdn.it120.cc/apifactory/2018/04/01/b7b8f5a0fcfc72454ade8510ab929717.jpg" width="200px"> | <img src="https://cdn.it120.cc/apifactory/2019/03/29/9e30cfe31eabcd218eb9c434f17e9295.jpg" width="200px"> | <img src="https://cdn.it120.cc/apifactory/2018/12/18/c2324da4eea91602f385db5b523b13ca.jpg" width="200px"> | 
+| [开源地址](https://github.com/walcer/TianguoguoXiaopu) | [开源地址](https://gitee.com/javazj/noodle_shop_procedures) | [开源地址](https://github.com/gooking/visitingCard) |
+
+## 联系作者
 
 | 微信好友 | 支付宝好友 |
 | :------: | :------: |
 | <img src="https://cdn.it120.cc/apifactory/2019/07/03/a86f7e46-1dbc-42fe-9495-65403659671e.jpeg" width="200px"> | <img src="https://cdn.it120.cc/apifactory/2019/07/03/fda59aeb-4943-4379-93bb-92856740bd6a.jpeg" width="200px"> |
 
-*欢迎打赏，让我们有动力更加完善！*
+## 接口 & 后台声明
 
-# 接口 & 后台声明
+本项目为小程序商城纯前端项目，由于人力和精力所限，本项目并未有开发配套的后台系统，而是直接使用了 [api 工厂](https://www.it120.cc/) 提供的免费接口和后台，可以完全满足本项目的所有功能需求。
 
-本项目未有开发配套的后台系统，而是直接使用了 [api 工厂](https://www.it120.cc/) 提供的免费接口和后台，可以完全满足本项目的所有功能需求。
-
-- [接口 SDK](https://github.com/gooking/apifm-ttapi)
+- [接口 SDK](https://github.com/gooking/apifm-wxapi)
 
 - [免费后台](https://admin.it120.cc)
 
-- [WeUI](https://github.com/Tencent/weui-wxss/)
+- [WeUI](https://github.com/Tencent/weui.ttss/)
+
+底部ICON图标使用：
+https://www.iconfont.cn/collections/detail?spm=a313x.7781069.0.da5a778a4&cid=13163
+
 
 ## 初始化测试数据
 
@@ -42,17 +51,22 @@
 
 你将立即享有初始化测试数据，方便你进行测试
 
-## 修改小程序的 appid 为你自己小程序的
-
-<img src="https://dcdn.it120.cc/2020/02/07/5b77e49c-9d31-43b2-a613-4d3f8482c712.png">
-
 ## 编译说明
 
-<img src="https://cdn.nlark.com/yuque/0/2019/png/572726/1575357564594-babb543e-59ec-4605-964c-7f99a42121c6.png?x-oss-process=image/resize,w_1492">
+本项目使用基于 ES7 的语法，所以请在开发工具中开启 “增强编译”， 否则会提示以下错误：
 
-**请时刻保证你的开发工具是最新版，如果不是最新版，请先升级你的开发工具**
+```
+thirdScriptError 
+ sdk uncaught third Error 
+ regeneratorRuntime is not defined 
+ ReferenceError: regeneratorRuntime is not defined
+```
 
-# 使用说明
+<img src="https://dcdn.it120.cc/2019/08/28/c5169c15-abda-4e5f-91d5-6dfcfe382fb2.png">
+
+**如果你的开发工具没用看到“增强编译”的选项，请升级开发工具到最新版**
+
+## 使用说明
 
 1、申请后台账号/获取专属域名
 
@@ -64,18 +78,12 @@
 
 ```javascript
 module.exports = {
-  version: "5.0",
-  note: "优化接口调用流程",
+  version: "7.4.0",
+  note: '内页增加快速浮动导航、我的页面UI优化', // 版本说明，无需修改
   subDomain: "tz", // 根据教程 https://www.yuque.com/apifm/doc/qr6l4m 查看你自己的 subDomain
-  appid: "wxa46b09d413fbcaff", // 您的小程序的appid，购物单功能需要使用
-  shareProfile: "百款精品商品，总有一款适合您" // 首页转发的时候话术
-};
-/*
-根据自己需要修改下单时候的模板消息内容设置，可增加关闭订单、收货时候模板消息提醒；
-1、/pages/to-pay-order/index.js 中已添加关闭订单、商家发货后提醒消费者；
-2、/pages/order-details/index.js 中已添加用户确认收货后提供用户参与评价；评价后提醒消费者好评奖励积分已到账；
-3、请自行修改上面几处的模板消息ID，参数为您自己的变量设置即可。  
-*/
+  shareProfile: '百款精品商品，总有一款适合您', // 首页转发的时候话术
+  goodsDetailSkuShowType: 0, // 0 为点击立即购买按钮后出现规格尺寸、数量的选择； 1为直接在商品详情页面显示规格尺寸、数量的选择，而不弹框
+}
 ```
 
 4、[设置小程序合法服务器域名](https://www.yuque.com/apifm/doc/tvpou9)
@@ -86,10 +94,14 @@ module.exports = {
 
 ```
 这两个功能都是使用后台 “系统设置” --> “banner” 管理功能来实现的；
-后台发布banner的时候，自定义类型请分别填写  app  和  new
+后台发布banner的时候，自定义类型请分别填写  app  和  index
 小程序会自动读取类型为 app 的banner图片作为启动展示图片；
-小程序会自动读取类型为 new 的banner图片作为首页分类下的轮播图；
+小程序会自动读取类型为 index 的banner图片作为首页的轮播图；
 ```
+
+7、订阅消息(以前的模板消息)如何使用？请查阅 “api工厂” 的教程：
+
+[https://www.yuque.com/apifm/doc/sw1dg9](https://www.yuque.com/apifm/doc/sw1dg9)
 
 ## 系统参数设置
 
@@ -166,15 +178,21 @@ module.exports = {
 
 
   1. 点击页面顶部的 Star ，关注后，项目有最新动态 github 会提醒您，不错过重要更新；
-  2. 点击页面顶部的 Fork， 将您需要增加的功能完成 小程序 端界面的调整，然后在 github 上请求将您的代码合并
+  2. 点击页面顶部的 Fork， 将您需要增加的功能完成 小程序 端界面的调整，然后在 github 上请求将您的代码合并到 EastWorld；
   3. 您的代码合并请求审核通过后，我们将会为您完善配套的后台功能；
-  4. 开源项目离不开您的支持和代码共享，我们一起把该项目长期维护下去；
+  4. 开源项目离不开您的支持和代码共享，我们一起把 EastWorld 项目长期维护下去；
 
 - 下单的时候没有地方填写收货地址？
 
   1. 添加一个“物流模板”，只有需要快递的商品才会提示用户填写收货地址
   2. 发布商品的时候，选择刚才添加的“物流模板”
   3. 重新下单，将会需要用户输入收货地址
+
+- 后台设置 appid 和 secret 的时候提示不正确？
+
+  1. 请确认您填写的 appid 和 secret 是否正确
+  2. 输入的时候确保没有空格（复制的时候可能会多复制了空格）
+  3. 在微信后台设置服务器 IP 地址白名单（106.14.43.122）
 
 - 如何使用退款功能？
 
@@ -193,27 +211,25 @@ module.exports = {
   1. 创建订单接口增加 expireMinutes 参数；
   2. 代表多少分钟未支付自动关闭本订单，传 0 不自动关闭订单；
 
-- 我没有那么多分类，首页2行分类能否改成1行？
+- 如何删除小程序源码中的广告位？
 
-  打开 /pages/index/index.js 文件，找到下图所示位置，代码
+  1. 在小程序开发工具中全局搜索关键词: <ad
+  2. 找到以后，将这一行广告位的代码删除即可
 
-  ```js
-  // 这行代码为显示2行
-  const _n = Math.ceil(categories.length / 2)
-  // 这行代码为显示1行
-  const _n = Math.ceil(categories.length)
-  ```
+- android看得到图片，ios手机看不到图片
+  
+  这是wxparse解析器的问题 很多人都中枪~
 
-  <img src="https://dcdn.it120.cc/2019/09/05/31729239-dc73-47f6-938a-9ab2c9c0bfdd.png">
+  全局搜索并注释掉 console.dir 就好了
 
 - [更多问题？](https://www.yuque.com/apifm/doc)
-
+  
 ## 如何升级到最新版
 
 - 小程序程序的修改和您后台的数据是独立的，所以不用担心您会丢失数据
 - 先把你开发工具下的现有版本程序备份
 - 下载最新版的程序，直接覆盖您本地的程序
-- 用开发工具修改域名 tz 为你自己的域名
+- 用开发工具修改域名 mall 为你自己的域名
 - 开发工具里面上传代码提交微信审核
 - 审核通过后，小程序后台去发布新版本即可
 - 用户无需重新扫码，关闭小程序重新打开就是新版本了

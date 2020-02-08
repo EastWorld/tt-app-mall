@@ -1,0 +1,20 @@
+@import "/wxParse/wxParse.ttss";
+
+.notice {
+  padding: 32rpx;
+  font-size: 26rpx;
+  color: #333;
+}
+.title {
+  width: 100%;
+  font-weight: bold;
+  border-bottom: 1rpx solid #eaeaea;
+  padding-bottom: 32rpx;
+}
+.text {
+  margin-top: 32rpx;
+  line-height: 64rpx;
+}
+.text image {
+  max-width: 100%;
+}

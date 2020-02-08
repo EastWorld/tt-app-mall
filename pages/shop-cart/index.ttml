@@ -1,0 +1,9 @@
+<!--index.ttml-->
+<import src="../template-cart/template-cart.ttml" />
+
+<view class="container">  
+  <template is="{{shippingCarInfo.items.length > 0 ? 'cart-goods-list' : 'no-goods'}}" data="{{...shippingCarInfo, saveHidden, allSelect, noSelect}}"></template>
+</view>
+
+<import src="/template/login/index.ttml" />
+<template is="apifmLogin" data="{{wxlogin: wxlogin}}" />

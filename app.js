@@ -66,17 +66,26 @@ App({
         res.data.forEach(config => {
           wx.setStorageSync(config.key, config.value);
           if (config.key === 'recharge_amount_min') {
-            that.globalData.recharge_amount_min = res.data.value;
+            that.globalData.recharge_amount_min = config.value;
           }
         })
         
       }
     })
+    // 读取评价赠送多少积分
     WXAPI.scoreRules({
       code: 'goodReputation'
     }).then(function(res) {
       if (res.code == 0) {        
         that.globalData.order_reputation_score = res.data[0].score;
+      }
+    })
+    // 拉取站点信息
+    WXAPI.siteStatistics().then(res => {
+      if (res.code == 0) {
+        if (res.data.wxAppid) {
+          wx.setStorageSync('wxAppid', res.data.wxAppid);
+        }
       }
     })
   },

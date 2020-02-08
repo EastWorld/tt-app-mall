@@ -1,0 +1,210 @@
+<import src="/template/login/index.ttml" />
+
+<view class="container">
+	<view tt:if="{{apiUserInfoMap}}" class="userinfo">
+		<image tt:if="{{apiUserInfoMap.base.avatarUrl}}" class="userinfo-avatar" src="{{ apiUserInfoMap.base.avatarUrl }}" background-size="cover"></image>
+		<text class="userinfo-nickname">{{ apiUserInfoMap.base.nick }}</text>
+	</view>
+  <view tt:else class="userinfo" style="margin-bottom:50rpx;">
+		<image class="userinfo-avatar" src="/images/nologin.png" background-size="cover"></image>
+		<button class="weui-btn mini-btn" plain="true" size="mini" bindtap="goLogin">点击登录账户</button>
+	</view>
+  <view tt:if="{{ rechargeOpen }}" class="asset">
+    <view class='item' bindtap='goAsset'>
+      <view>{{balance}}</view>
+      <view>余额</view>
+    </view>
+    <view class='item right' bindtap='goAsset'>
+      <view>{{freeze}}</view>
+      <view>冻结</view>
+    </view>
+    <view class='item right' bindtap='goScore'>
+      <view>{{score}}</view>
+      <view>积分</view>
+    </view>
+    <navigator url="/pages/score/growth">
+      <view class='item right'>
+        <view>{{growth}}</view>
+        <view>成长值</view>
+      </view>
+    </navigator>
+  </view>
+  <view class="space"></view>
+  <navigator url="/pages/order-list/index">
+    <view class="menu-item">
+      <view class="l">我的订单</view>
+      <image class="next" src="/images/icon/next.png"></image>
+    </view>
+  </navigator>
+  <view class="line"></view>
+  <view class='order-shortcut'>
+    <view class='item' bindtap='goOrder' data-type="0">
+      <image class="icon" src="/images/order/topay.png" background-size="cover"></image>
+      <view class='text'>待付款</view>
+    </view>
+    <view class='item' bindtap='goOrder' data-type="1">
+      <image class="icon" src="/images/order/fahuo.png" background-size="cover"></image>
+      <view class='text'>待发货</view>
+    </view>
+    <view class='item' bindtap='goOrder' data-type="2">
+      <image class="icon" src="/images/order/shouhuo.png" background-size="cover"></image>
+      <view class='text'>待收货</view>
+    </view>
+    <view class='item' bindtap='goOrder' data-type="3">
+      <image class="icon" src="/images/order/pj.png" background-size="cover"></image>
+      <view class='text'>待评价</view>
+    </view>
+    <view class='item' bindtap='goOrder' data-type="99">
+      <image class="icon" src="/images/order/shouhou.png" background-size="cover"></image>
+      <view class='text'>退款/售后</view>
+    </view>
+  </view>
+  <image class="ad-img" mode="widthFix" src="https://dcdn.it120.cc/2020/01/17/1b73c7dc-1633-463c-8ef1-3079fddc011e.png"></image>
+  <!-- flex布局的新菜单 -->
+  <!-- <view class="menu-item">
+    <view class="l">我的订单</view>
+    <image class="next" src="/images/icon/next.png"></image>
+  </view>
+  <view class="space"></view>
+  <view class="line"></view>
+  <view class="menu-item">
+    <view class="l">我的订单</view>
+    <view class="r">内容</view>
+  </view>
+  <view class="line"></view>
+  <view class="menu-item">
+    <view class="l">我的订单</view>
+    <view class="r">内容</view>
+  </view> -->
+
+  <block tt:if="{{vipLevel > 0}}">
+    <view class="space"></view>
+    <navigator tt:if="{{!apiUserInfoMap.base.isSeller}}" url="/pages/fx/apply-status">
+      <view class="menu-item">
+        <view class="l">成为分销商</view>
+        <image class="next" src="/images/icon/next.png"></image>
+      </view>
+    </navigator>
+    <navigator tt:else url="/pages/fx/apply-status">
+      <view class="menu-item">
+        <view class="l">分销中心</view>
+        <image class="next" src="/images/icon/next.png"></image>
+      </view>
+    </navigator>
+    <view tt:if="{{apiUserInfoMap.base.isSeller}}" class="line"></view>
+    <navigator tt:if="{{apiUserInfoMap.base.isSeller}}" url="/pages/fx/members">
+      <view class="menu-item">
+        <view class="l">我的团队</view>
+        <image class="next" src="/images/icon/next.png"></image>
+      </view>
+    </navigator>
+    <view tt:if="{{apiUserInfoMap.base.isSeller}}" class="line"></view>
+    <navigator tt:if="{{apiUserInfoMap.base.isSeller}}" url="/pages/fx/commisionLog">
+      <view class="menu-item">
+        <view class="l">返佣明细</view>
+        <image class="next" src="/images/icon/next.png"></image>
+      </view>
+    </navigator>
+  </block>
+
+  <view class="space"></view>
+  <navigator url="/pages/invoice/apply">
+    <view class="menu-item">
+      <view class="l">申请开票</view>
+      <image class="next" src="/images/icon/next.png"></image>
+    </view>
+  </navigator>
+  <view class="line"></view>
+  <navigator url="/pages/invoice/list">
+    <view class="menu-item">
+      <view class="l">开票记录</view>
+      <image class="next" src="/images/icon/next.png"></image>
+    </view>
+  </navigator>
+
+  <view class="space"></view>
+  <navigator url="/pages/maidan/index">
+    <view class="menu-item">
+      <view class="l">优惠买单</view>
+      <image class="next" src="/images/icon/next.png"></image>
+    </view>
+  </navigator>
+  <view class="line"></view>
+  <navigator url="/pages/asset/index">
+    <view class="menu-item">
+      <view class="l">资金明细</view>
+      <image class="next" src="/images/icon/next.png"></image>
+    </view>
+  </navigator>
+  <view class="line"></view>
+  <navigator url="/pages/sign/index">
+    <view class="menu-item">
+      <view class="l">每日签到</view>
+      <image class="next" src="/images/icon/next.png"></image>
+    </view>
+  </navigator>
+  <view class="line"></view>
+  <navigator url="/pages/score-excharge/index">
+    <view class="menu-item">
+      <view class="l">积分卷兑换积分</view>
+      <image class="next" src="/images/icon/next.png"></image>
+    </view>
+  </navigator>
+  <view class="line"></view>
+  <navigator url="/pages/score-excharge/growth">
+    <view class="menu-item">
+      <view class="l">积分兑换成长值</view>
+      <image class="next" src="/images/icon/next.png"></image>
+    </view>
+  </navigator>
+  <view class="line"></view>
+  <navigator url="/pages/select-address/index">
+    <view class="menu-item">
+      <view class="l">收货地址</view>
+      <image class="next" src="/images/icon/next.png"></image>
+    </view>
+  </navigator>
+  <view class="line"></view>
+  <navigator url="/pages/coupons/index">
+    <view class="menu-item">
+      <view class="l">领券中心</view>
+      <image class="next" src="/images/icon/next.png"></image>
+    </view>
+  </navigator>
+
+  <view class="space"></view>
+  <view class="menu-item" bindtap="aboutUs">
+    <view class="l">关于我们</view>
+    <image class="next" src="/images/icon/next.png"></image>
+  </view>
+  <view class="line"></view>
+  <view tt:if="{{userMobile}}" class="menu-item">
+    <view class="l">绑定手机</view>
+    <view class="r">{{ userMobile }}</view>
+  </view>
+  <view  tt:else class="menu-item">
+    <view class="l">绑定手机</view>
+    <button type="primary" size="mini" open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">立即绑定</button>
+  </view>
+  <view class="line"></view>
+  <view tt:if="{{apiUserInfoMap}}" class="menu-item" bindtap="loginOut">
+    <view class="l">退出登录</view>
+    <image class="next" src="/images/icon/next.png"></image>
+  </view>
+  <view tt:else class="menu-item" bindtap="goLogin">
+    <view class="l">授权登录</view>
+    <image class="next" src="/images/icon/next.png"></image>
+  </view>
+
+  <!-- <view class="line"></view>
+  <view class="menu-item">
+    <view class="l">绑定官网账号</view>
+    <image class="next" src="/images/icon/next.png"></image>
+  </view> -->
+  
+  <view class="space"></view>
+  <view class="version">Powered by EastWorld v {{version}}</view>
+  <view class="space"></view>
+</view>
+
+<template is="apifmLogin" data="{{wxlogin: wxlogin}}" />

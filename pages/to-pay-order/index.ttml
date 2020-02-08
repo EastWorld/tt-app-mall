@@ -1,0 +1,94 @@
+<import src="/template/login/index.ttml" />
+<view class="container">
+  <view class="goods-list">
+    <view class="list-title">商品列表</view>
+    <view class="a-goods" tt:for="{{goodsList}}" tt:key="{{index}}">
+      <view class="img-box">
+        <image src="{{item.pic}}" class="img" />
+      </view>
+      <view class="text-box">
+        <view class="arow arow01">
+          <view class="goods-name">{{item.name}}</view>
+          <view class="goods-price">¥ {{item.price}}</view>
+        </view>
+        <view class="arow">
+          <view class="goods-label">
+            {{item.label}}
+            <block tt:for="{{item.sku}}" tt:for-item="option" tt:key="index">
+              {{option.optionName}}:{{option.optionValueName}}
+            </block>
+          </view>
+          <view class="goods-num">x {{item.number}}</view>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="peisong-way">
+    <view class="row-box" tt:if="{{isNeedLogistics > 0}}">
+      <view class="row-label">配送方式</view>
+      <radio-group bindchange="radioChange">
+        <label class="radio">
+          <radio value="kd" checked="{{peisongType == 'kd'}}" /> 快递
+        </label>
+        <label class="radio" tt:if='{{allowSelfCollection == "1"}}'>
+          <radio value="zq" checked="{{peisongType == 'zq'}}" /> 到店自取
+        </label>
+      </radio-group>
+    </view>
+    <view class="address-box" tt:if="{{peisongType == 'kd' && isNeedLogistics > 0}}">
+      <view class="add-address" hidden="{{curAddressData}}" bindtap="addAddress">
+        <image src="/images/add-addr.png"></image>
+        <view>新增收货地址</view>
+      </view>
+      <view class="show-address" hidden="{{!curAddressData}}" bindtap="selectAddress">
+        <view class="name-tel">{{curAddressData.linkMan}} {{curAddressData.mobile}}</view>
+        <view class="addr-text">{{curAddressData.address}}</view>
+      </view>
+    </view>
+    <view class="row-box">
+      <view class="row-label">备注</view>
+      <view class="right-text">
+        <input bindinput="remarkChange" type="text" class="liuyan" placeholder="如需备注请输入" />
+      </view>
+    </view>
+  </view>
+  <view class="peisong-way" hidden="{{hasNoCoupons}}">
+    <view class="row-box" style="border-bottom:none;">
+      <view class="row-label">选择使用优惠券</view>
+    </view>
+    <view class="row-box" style="border-bottom:none;">
+      <picker-view indicator-style="height: 50rpx;" style="width: 100%; height: 150rpx;" value="0" bindchange="bindChangeCoupon">
+        <picker-view-column>
+          <view style="line-height: 50px">不使用优惠券</view>
+          <view tt:for="{{coupons}}" tt:key="id" style="line-height: 50px">{{item.money}}元 {{item.name}}</view>
+        </picker-view-column>
+      </picker-view>
+    </view>
+  </view>
+
+
+  <view class="goods-info" tt:if="{{(isNeedLogistics > 0 && yunPrice > 0) || (!hasNoCoupons)}}">
+    <view class="row-box" tt:if="{{isNeedLogistics > 0 && yunPrice > 0}}">
+      <view class="row-label">商品金额</view>
+      <view class="right-text">¥ {{allGoodsPrice}}</view>
+    </view>
+    <view class="row-box" tt:if="{{isNeedLogistics > 0 && yunPrice > 0}}">
+      <view class="row-label">运费</view>
+      <view class="right-text">+ ¥ {{yunPrice}}</view>
+    </view>
+    <view class="row-box" tt:if="{{!hasNoCoupons}}">
+      <view class="row-label">优惠券</view>
+      <view class="right-text">- ¥ {{youhuijine}}</view>
+    </view>
+  </view>
+
+  <view class="jiesuan-box safeAreaOldPaddingBttom safeAreaNewPaddingBttom">
+    <view class="left-price">
+      <view class="total">合计：¥ {{allGoodsAndYunPrice - youhuijine}} + {{totalScoreToPay}} 积分</view>
+    </view>
+    <button class="to-pay-btn" bindtap="goCreateOrder">提交订单</button>
+  </view>
+</view>
+
+<template is="apifmLogin" data="{{wxlogin: wxlogin}}" />
+<float-menu /> 

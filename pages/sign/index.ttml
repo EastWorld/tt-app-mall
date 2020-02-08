@@ -1,0 +1,6 @@
+<view class="calendar-wrap">
+   <calendar bind:afterTapDay="afterTapDay"></calendar>
+</view>
+
+<import src="/template/login/index.ttml" />
+<template is="apifmLogin" data="{{wxlogin: wxlogin}}" />

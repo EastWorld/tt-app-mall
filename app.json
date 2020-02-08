@@ -2,6 +2,10 @@
   "pages": [
     "pages/start/start",
     "pages/index/index",
+    "pages/notice/index",
+    "pages/notice/show",
+    "pages/category/category",
+    "pages/goods/list",
     "pages/goods-details/index",
     "pages/shop-cart/index",
     "pages/to-pay-order/index",
@@ -12,14 +16,14 @@
     "pages/order/refundApply",
     "pages/wuliu/index",
     "pages/my/index",
-    "pages/notice/show",
     "pages/recharge/index",
     "pages/withdraw/index",
     "pages/score-excharge/index",
+    "pages/score-excharge/growth",
     "pages/asset/index",
     "pages/score/index",
+    "pages/score/growth",
     "pages/sign/index",
-    "pages/category/category",
     "pages/maidan/index",
     "pages/fx/apply",
     "pages/fx/apply-status",
@@ -72,5 +76,8 @@
   "navigateToMiniProgramAppIdList": [
     "wx56c8f077de74b07c"
   ],
+  "usingComponents": {
+    "float-menu": "/components/float-menu/index"
+  },
   "sitemapLocation": "sitemap.json"
 }

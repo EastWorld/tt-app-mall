@@ -1,10 +1,11 @@
 const WXAPI = require('../../utils/apifm-ttapi')
+const AUTH = require('../../utils/auth')
 //获取应用实例
 var app = getApp()
 Page({
   data: {
     showRegionStr: '请选择'
-  },
+  },  
   async bindSave(e) {
     var that = this;
     var linkMan = e.detail.value.linkMan;
@@ -92,11 +93,15 @@ Page({
     const _this = this
     if (e.id) { // 修改初始化数据库数据
       WXAPI.addressDetail(wx.getStorageSync('token'), e.id).then(function (res) {
-        if (res.code === 0) {
+        if (res.code == 0) {
+          let showRegionStr = res.data.info.provinceStr + res.data.info.cityStr + res.data.info.areaStr
+          if (res.data.extJson && res.data.extJson['街道/社区']) {
+            showRegionStr += res.data.extJson['街道/社区']
+          }
           _this.setData({
             id: e.id,
             addressData: res.data.info,
-            showRegionStr: res.data.info.provinceStr + res.data.info.cityStr + res.data.info.areaStr
+            showRegionStr
           });
           return;
         } else {
@@ -126,15 +131,15 @@ Page({
       }
     })
   },
-  readFromWx : function () {
-    const _this = this
-    wx.chooseAddress({
-      success: function (res) {
-        console.log(res)
-        _this.setData({
-          wxaddress: res
-        });
-      }
+  readFromWx() {
+    AUTH.checkAndAuthorize('scope.address').then(() => {
+      wx.chooseAddress({
+        success: (res) => {
+          this.setData({
+            wxaddress: res
+          });
+        }
+      })
     })
   },
   showRegionSelect(){

@@ -2,7 +2,6 @@ const app = getApp()
 const CONFIG = require('../../config.js')
 const WXAPI = require('../../utils/apifm-ttapi')
 const AUTH = require('../../utils/auth')
-
 const ImageUtil = require('../../utils/image')
 
 Page({
@@ -89,10 +88,12 @@ Page({
       title: '加载中',
       mask: true
     })
-    const ttaQrcodeParams = {
-      path: 'pages/index/index?inviter_id=' + wx.getStorageSync('uid'),
-    }
-    WXAPI.ttaQrcode(ttaQrcodeParams, 1).then(res => {
+    WXAPI.ttaQrcode({
+      scene: 'inviter_id=' + wx.getStorageSync('uid'),
+      page: 'pages/index/index',
+      is_hyaline: true,
+      expireHours: 1
+    }).then(res => {
       wx.hideLoading()
       if (res.code == 0) {
         _this.showCanvas(res.data)
@@ -105,15 +106,13 @@ Page({
     wx.getImageInfo({
       src: qrcode,
       success: (res) => {
-        console.log(res)
         const imageSize = ImageUtil.imageUtil(res.width, res.height)
-        console.log(imageSize)
         const qrcodeWidth = imageSize.windowWidth / 2
         _this.setData({
           canvasHeight: qrcodeWidth
         })
-        ctx = tt.createCanvasContext('firstCanvas')
-        ctx.setFillStyle('#ffffff')
+        ctx = wx.createCanvasContext('firstCanvas')
+        ctx.setFillStyle('#fff')
         ctx.fillRect(0, 0, imageSize.windowWidth, imageSize.imageHeight + qrcodeWidth)
         ctx.drawImage(res.path, (imageSize.windowWidth - qrcodeWidth) / 2, 0, qrcodeWidth, qrcodeWidth)
         setTimeout(function () {
@@ -167,13 +166,11 @@ Page({
     }
   },
   bindSave: function (e) {
-    WXAPI.addTempleMsgFormid(wx.getStorageSync('token'), 'form', e.detail.formId)
     wx.navigateTo({
       url: "/pages/fx/apply"
     })
   },
   goShop: function (e) {
-    WXAPI.addTempleMsgFormid(wx.getStorageSync('token'), 'form', e.detail.formId)
     wx.switchTab({
       url: '/pages/index/index',
     })
@@ -215,13 +212,6 @@ Page({
     })
   },
   processLogin(e) {
-    if (!e.detail.userInfo) {
-      wx.showToast({
-        title: '已取消',
-        icon: 'none',
-      })
-      return;
-    }
     AUTH.register(this);
   },
 })

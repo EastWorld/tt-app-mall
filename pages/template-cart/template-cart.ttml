@@ -1,0 +1,52 @@
+<template name="no-goods">
+  <image class="no-goods-icon" src="/images/nav/cart-off.png"></image>
+  <view class="title-box">
+    购物车空空如也～
+  </view>
+  <view class="to-index-btn" bindtap="toIndexPage">
+    去逛逛
+  </view>
+  <view style="position:absolute;bottom:10rpx;width:750rpx;">
+    <image class="ad-img" mode="widthFix" src="https://dcdn.it120.cc/2020/01/17/1b73c7dc-1633-463c-8ef1-3079fddc011e.png"></image>
+  </view>
+</template>
+
+<template name="cart-goods-list">
+  <view class="goodsList">
+    <view class="a-gooods" tt:for="{{items}}" tt:key="key">
+      <view class="a-goods-conts {{item.active? 'active':''}}" bindtouchstart="touchS" bindtouchmove="touchM" bindtouchend="touchE" data-index="{{index}}" style="{{item.left}}">
+        <view class="goods-info">
+          <view class="img-box">
+            <image mode="aspectFill" src="{{item.pic}}" class="img" />
+          </view>
+          <view class="text-box">
+            <view class="goods-title">{{item.name}}</view>
+            <view tt:if="{{item.sku}}" class="goods-label">
+              <block tt:for="{{item.sku}}" tt:for-item="option" tt:key="index">
+                {{option.optionName}}:{{option.optionValueName}}
+              </block>
+            </view>
+            <view class="goods-price">¥ {{item.price}}</view>
+            <view class="buy-num">
+              <view class="jian-btn {{item.number==1? 'disabled' : ''}}" catchtap="jianBtnTap" data-index="{{index}}">-</view>
+              <input type="number" value="{{item.number}}" disabled/>
+              <view class="jia-btn {{item.number==curTouchGoodStore? 'disabled' : ''}}" catchtap="jiaBtnTap" data-index="{{index}}">+</view>
+            </view>
+          </view>
+        </view>
+        <view class="delete-btn" data-key="{{item.key}}" catchtap="delItem">
+          删除
+        </view>
+      </view>
+    </view>
+  </view>
+  <image class="ad-img" mode="widthFix" src="https://dcdn.it120.cc/2020/01/17/1b73c7dc-1633-463c-8ef1-3079fddc011e.png"></image>
+  <view class="jiesuan-box">
+    <view class="left-price">
+      <view class="total" hidden="{{noSelect}}">合计：¥ {{price}} + {{score}} 积分</view>
+    </view>
+    <view class="to-pay-btn">
+      <navigator url="/pages/to-pay-order/index">去结算</navigator>
+    </view>
+  </view>
+</template>

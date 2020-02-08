@@ -1,4 +1,17 @@
-const WXAPI = require('apifm-ttapi.js')
+const WXAPI = require('apifm-ttapi')
+
+async function checkSession(){
+  return new Promise((resolve, reject) => {
+    wx.checkSession({
+      success() {
+        return resolve(true)
+      },
+      fail() {
+        return resolve(false)
+      }
+    })
+  })
+}
 
 // 检测登录状态，返回 true / false
 async function checkHasLogined() {
@@ -6,11 +19,11 @@ async function checkHasLogined() {
   if (!token) {
     return false
   }
-  wx.checkSession({
-    fail() {
-      return false
-    }
-  })
+  const loggined = await checkSession()
+  if (!loggined) {
+    wx.removeStorageSync('token')
+    return false
+  }
   const checkTokenRes = await WXAPI.checkToken(token)
   if (checkTokenRes.code != 0) {
     wx.removeStorageSync('token')
@@ -23,6 +36,7 @@ async function login(page){
   const _this = this
   wx.login({
     success: function (res) {
+      console.log(res)
       WXAPI.login_tt(res.code).then(function (res) {
         if (res.code == 10000) {
           // 去注册
@@ -44,21 +58,19 @@ async function login(page){
           page.onShow()
         }
       })
-    },
-    fail(res) {
-      console.log('登录失败：', res);
     }
   })
 }
 
 async function register(page) {
-  let _this = this;  
-  tt.login({
+  let _this = this;
+  wx.login({
     success: function (res) {
       let code = res.code; // 微信登录接口返回的 code 参数，下面注册接口需要用到
       tt.getUserInfo({
         success: function (res) {
-          console.log(res)
+          let iv = res.iv;
+          let encryptedData = res.encryptedData;
           let referrer = '' // 推荐人
           let referrer_storge = wx.getStorageSync('referrer');
           if (referrer_storge) {
@@ -67,18 +79,11 @@ async function register(page) {
           // 下面开始调用注册接口
           WXAPI.register_tt({
             code: code,
-            avatarUrl: res.userInfo.avatarUrl,
-            nickName: res.userInfo.nickName,
-            province: res.userInfo.province,
-            city: res.userInfo.city,
+            encryptedData: encryptedData,
+            iv: iv,
             referrer: referrer
           }).then(function (res) {
             _this.login(page);
-          })
-        },
-        fail(res) {
-          tt.authorize({
-            scope: "scope.userInfo"
           })
         }
       })
@@ -91,9 +96,57 @@ function loginOut(){
   wx.removeStorageSync('uid')
 }
 
+async function checkAndAuthorize (scope) {
+  return new Promise((resolve, reject) => {
+    wx.getSetting({
+      success(res) {
+        if (!res.authSetting[scope]) {
+          wx.authorize({
+            scope: scope,
+            success() {
+              resolve() // 无返回参数
+            },
+            fail(e){
+              console.error(e)
+              // if (e.errMsg.indexof('auth deny') != -1) {
+              //   wx.showToast({
+              //     title: e.errMsg,
+              //     icon: 'none'
+              //   })
+              // }
+              wx.showModal({
+                title: '无权操作',
+                content: '需要获得您的授权',
+                showCancel: false,
+                confirmText: '立即授权',
+                confirmColor: '#e64340',
+                success(res) {
+                  wx.openSetting();
+                },
+                fail(e){
+                  console.error(e)
+                  reject(e)
+                },
+              })
+            }
+          })
+        } else {
+          resolve() // 无返回参数
+        }
+      },
+      fail(e){
+        console.error(e)
+        reject(e)
+      }
+    })
+  })  
+}
+
+
 module.exports = {
   checkHasLogined: checkHasLogined,
   login: login,
   register: register,
-  loginOut: loginOut
+  loginOut: loginOut,
+  checkAndAuthorize: checkAndAuthorize
 }

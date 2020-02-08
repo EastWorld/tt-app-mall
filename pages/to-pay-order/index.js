@@ -21,7 +21,8 @@ Page({
     youhuijine: 0, //优惠券金额
     curCoupon: null, // 当前选择使用的优惠券
     allowSelfCollection: '0', // 是否允许到店自提
-    peisongType: 'zq' // 配送方式 kd,zq 分别表示快递/到店自取
+    peisongType: 'kd', // 配送方式 kd,zq 分别表示快递/到店自取
+    remark: ''
   },
   onShow(){
     AUTH.checkHasLogined().then(isLogined => {
@@ -34,41 +35,37 @@ Page({
       }
     })
   },
-  doneShow: function () {
+  async doneShow() {
     let allowSelfCollection = wx.getStorageSync('ALLOW_SELF_COLLECTION')
     if (!allowSelfCollection || allowSelfCollection != '1') {
       allowSelfCollection = '0'
       this.data.peisongType = 'kd'
     }
-    const that = this;
     let shopList = [];
+    const token = wx.getStorageSync('token')
     //立即购买下单
-    if ("buyNow" == that.data.orderType) {
+    if ("buyNow" == this.data.orderType) {
       var buyNowInfoMem = wx.getStorageSync('buyNowInfo');
-      that.data.kjId = buyNowInfoMem.kjId;
+      this.data.kjId = buyNowInfoMem.kjId;
       if (buyNowInfoMem && buyNowInfoMem.shopList) {
         shopList = buyNowInfoMem.shopList
       }
     } else {
       //购物车下单
-      var shopCarInfoMem = wx.getStorageSync('shopCarInfo');
-      that.data.kjId = shopCarInfoMem.kjId;
-      if (shopCarInfoMem && shopCarInfoMem.shopList) {
-        // shopList = shopCarInfoMem.shopList
-        shopList = shopCarInfoMem.shopList.filter(entity => {
-          return entity.active;
-        });
+      const res = await WXAPI.shippingCarInfo(token)
+      if (res.code == 0) {
+        shopList = res.data.items
       }
     }
-    that.setData({
+    this.setData({
       goodsList: shopList,
       allowSelfCollection: allowSelfCollection,
-      peisongType: that.data.peisongType
+      peisongType: this.data.peisongType
     });
-    that.initShippingAddress();
+    this.initShippingAddress()
   },
 
-  onLoad: function (e) {
+  onLoad(e) {
     let _data = {
       isNeedLogistics: 1
     }
@@ -90,14 +87,28 @@ Page({
     }
     return aaa;
   },
-
+  remarkChange(e){
+    this.data.remark = e.detail.value
+  },
+  goCreateOrder(){
+    wx.requestSubscribeMessage({
+      tmplIds: ['ITVuuD_cwYN-5BjXne8cSktDo43xetj0u-lpvFZEQQs',
+        'dw9Tzh9r0sw7Gjab0ovQJx3bP3gdXmF_FZvpnxPd6hc'],
+      success(res) {
+        
+      },
+      fail(e) {
+        console.error(e)
+      },
+      complete: (e) => {
+        this.createOrder(true)
+      },
+    })
+  },
   createOrder: function (e) {
     var that = this;
     var loginToken = wx.getStorageSync('token') // 用户登录 token
-    var remark = ""; // 备注信息
-    if (e) {
-      remark = e.detail.value.remark; // 备注信息
-    }
+    var remark = this.data.remark; // 备注信息
 
     let postData = {
       token: loginToken,
@@ -152,7 +163,7 @@ Page({
 
       if (e && "buyNow" != that.data.orderType) {
         // 清空购物车数据
-        wx.removeStorageSync('shopCarInfo');
+        WXAPI.shippingCarInfoRemoveAll(loginToken)
       }
       if (!e) {
         that.setData({
@@ -165,85 +176,26 @@ Page({
         that.getMyCoupons();
         return;
       }
-      WXAPI.addTempleMsgFormid(wx.getStorageSync('token'), 'form', e.detail.formId)
-      // 配置模板消息推送
-      var postJsonString = {};
-      postJsonString.keyword1 = {
-        value: res.data.dateAdd,
-        color: '#173177'
-      }
-      postJsonString.keyword2 = {
-        value: res.data.amountReal + '元',
-        color: '#173177'
-      }
-      postJsonString.keyword3 = {
-        value: res.data.orderNumber,
-        color: '#173177'
-      }
-      postJsonString.keyword4 = {
-        value: '订单已关闭',
-        color: '#173177'
-      }
-      postJsonString.keyword5 = {
-        value: '您可以重新下单，请在30分钟内完成支付',
-        color: '#173177'
-      }
-      WXAPI.sendTempleMsg({
-        module: 'order',
-        business_id: res.data.id,
-        trigger: -1,
-        postJsonString: JSON.stringify(postJsonString),
-        template_id: 'mGVFc31MYNMoR9Z-A9yeVVYLIVGphUVcK2-S2UdZHmg',
-        type: 0,
-        token: wx.getStorageSync('token'),
-        url: 'pages/index/index'
-      })
-      postJsonString = {};
-      postJsonString.keyword1 = {
-        value: '您的订单已发货，请注意查收',
-        color: '#173177'
-      }
-      postJsonString.keyword2 = {
-        value: res.data.orderNumber,
-        color: '#173177'
-      }
-      postJsonString.keyword3 = {
-        value: res.data.dateAdd,
-        color: '#173177'
-      }
-      WXAPI.sendTempleMsg({
-        module: 'order',
-        business_id: res.data.id,
-        trigger: 2,
-        postJsonString: JSON.stringify(postJsonString),
-        template_id: 'Arm2aS1rsklRuJSrfz-QVoyUzLVmU2vEMn_HgMxuegw',
-        type: 0,
-        token: wx.getStorageSync('token'),
-        url: 'pages/order-details/index?id=' + res.data.id
-      })
       // 下单成功，跳转到订单管理界面
       wx.redirectTo({
         url: "/pages/order-list/index"
       });
     })
   },
-  initShippingAddress: function () {
-    var that = this;
-    WXAPI.defaultAddress(wx.getStorageSync('token')).then(function (res) {
-      if (res.code == 0) {
-        that.setData({
-          curAddressData: res.data.info
-        });
-      } else {
-        that.setData({
-          curAddressData: null
-        });
-      }
-      that.processYunfei();
-    })
+  async initShippingAddress() {
+    const res = await WXAPI.defaultAddress(wx.getStorageSync('token'))
+    if (res.code == 0) {
+      this.setData({
+        curAddressData: res.data.info
+      });
+    } else {
+      this.setData({
+        curAddressData: null
+      });
+    }
+    this.processYunfei();
   },
-  processYunfei: function () {
-    var that = this;
+  processYunfei() {
     var goodsList = this.data.goodsList;
     var goodsJsonStr = "[";
     var isNeedLogistics = 0;
@@ -257,7 +209,7 @@ Page({
     }
     for (let i = 0; i < goodsList.length; i++) {
       let carShopBean = goodsList[i];
-      if (carShopBean.logistics) {
+      if (carShopBean.logistics || carShopBean.logisticsId) {
         isNeedLogistics = 1;
       }
       allGoodsPrice += carShopBean.price * carShopBean.number;
@@ -266,19 +218,24 @@ Page({
       if (i > 0) {
         goodsJsonStrTmp = ",";
       }
-
+      if (carShopBean.sku && carShopBean.sku.length > 0) {
+        let propertyChildIds = ''
+        carShopBean.sku.forEach(option => {
+          propertyChildIds = propertyChildIds + ',' + option.optionId + ':' + option.optionValueId
+        })
+        carShopBean.propertyChildIds = propertyChildIds
+      }
       goodsJsonStrTmp += '{"goodsId":' + carShopBean.goodsId + ',"number":' + carShopBean.number + ',"propertyChildIds":"' + carShopBean.propertyChildIds + '","logisticsType":0, "inviter_id":' + inviter_id + '}';
       goodsJsonStr += goodsJsonStrTmp;
 
 
     }
     goodsJsonStr += "]";
-    //console.log(goodsJsonStr);
-    that.setData({
+    this.setData({
       isNeedLogistics: isNeedLogistics,
       goodsJsonStr: goodsJsonStr
     });
-    that.createOrder();
+    this.createOrder();
   },
   addAddress: function () {
     wx.navigateTo({
@@ -328,18 +285,12 @@ Page({
     this.setData({
       peisongType: e.detail.value
     })
+    this.processYunfei()
   },
   cancelLogin() {
     wx.navigateBack()
   },
   processLogin(e) {
-    if (!e.detail.userInfo) {
-      wx.showToast({
-        title: '已取消',
-        icon: 'none',
-      })
-      return;
-    }
     AUTH.register(this);
   },
 })

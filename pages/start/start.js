@@ -1,4 +1,4 @@
-const TTAPI = require('../../utils/apifm-ttapi')
+const WXAPI = require('../../utils/apifm-ttapi')
 const CONFIG = require('../../config.js')
 //获取应用实例
 var app = getApp();
@@ -20,7 +20,7 @@ Page({
       });
     } else {
       // 展示启动页
-      TTAPI.banners({
+      WXAPI.banners({
         type: 'app'
       }).then(function (res) {
         if (res.code == 700) {
@@ -72,5 +72,5 @@ Page({
         icon: 'none',
       })
     }
-  },
+  }
 });
