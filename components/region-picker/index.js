@@ -1,4 +1,4 @@
-const WXAPI = require('apifm-wxapi')
+const WXAPI = require('../../utils/apifm-ttapi')
 
 Component({
   options: {

@@ -1,14 +1,14 @@
-# 微信小程序商城
+# 今日头条/抖音小程序商城
 
-微信小程序商城，微信小程序微店，长期维护版本，欢迎大家踊跃提交贡献代码；
+今日头条/抖音小程序商城，长期维护版本，欢迎大家踊跃提交贡献代码；
 
 使用说明和常见问题，可参阅下面的说明，如还有疑问，可访问工厂官网 [https://www.it120.cc/](https://www.it120.cc/) 寻求帮助！
 
-# 今日头条/抖音小程序版本
+# 微信小程序版本
 
-本项目的今日头条/抖音小程序版本，请移步至下面的地址：
+本项目的微信小程序版本，请移步至下面的地址：
 
-[https://github.com/EastWorld/tt-app-mall](https://github.com/EastWorld/tt-app-mall)
+[https://github.com/EastWorld/wechat-app-mall](https://github.com/EastWorld/wechat-app-mall)
 
 ## 扫码体验
 
