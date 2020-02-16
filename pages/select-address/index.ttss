@@ -51,6 +51,7 @@
   border-top: 1rpx solid #eee;
   height: 100rpx;
   line-height: 100rpx;
+  background: #fff;
   display: flex;
   justify-content: space-between;
   align-items: center;
