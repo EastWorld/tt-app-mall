@@ -33,7 +33,7 @@ Page({
     var amount = confine;
     this.setData({
       amount: amount
-    });
+    });    
     wxpay.wxpay('recharge', amount, 0, "/pages/my/index");
   },
 

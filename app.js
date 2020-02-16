@@ -2,7 +2,8 @@ const WXAPI = require('utils/apifm-ttapi')
 const CONFIG = require('config.js')
 const AUTH = require('utils/auth')
 App({
-  onLaunch: function() {
+  onLaunch: function(options) {
+    console.log('onLaunch', options)
     WXAPI.init(CONFIG.subDomain) // 从根目录的 config.js 文件中读取
     const that = this;
     // 检测新版本
@@ -97,6 +98,7 @@ App({
     }, 1000)
   },  
   onShow (e) {
+    console.log('onShow', e)
     this.globalData.launchOption = e
     // 保存邀请人
     if (e && e.query && e.query.inviter_id) {

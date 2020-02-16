@@ -78,21 +78,7 @@ Page({
   mobileChange(e){
     this.data.mobile = e.detail.value
   },
-  bindSave(){
-    wx.requestSubscribeMessage({
-      tmplIds: ['7sO58VXh0T5a6SwB5c9hR43bnBPxW8E6v3d70QQXuIk'],
-      success(res) {
-
-      },
-      fail(e) {
-        console.error(e)
-      },
-      complete: (e) => {
-        this.bindSaveDone()
-      },
-    })
-  },
-  bindSaveDone: function () {
+  bindSave: function () {
     const name = this.data.name
     const mobile = this.data.mobile
     if (!name) {

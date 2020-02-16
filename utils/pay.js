@@ -29,28 +29,36 @@ function wxpay(type, money, orderId, redirectUrl, data) {
   if (postData.nextAction) {
     postData.nextAction = JSON.stringify(postData.nextAction);  
   }
-  WXAPI.wxpay(postData).then(function (res) {
+  WXAPI.ttpay(postData).then(function (res) {
     if (res.code == 0) {
       // 发起支付
-      wx.requestPayment({
-        timeStamp: res.data.timeStamp,
-        nonceStr: res.data.nonceStr,
-        package: 'prepay_id=' + res.data.prepayId,
-        signType: res.data.signType,
-        paySign: res.data.sign,
-        fail: function (aaa) {
+      tt.pay({
+        orderInfo: res.data,
+        service: 1,
+        getOrderStatus(res) {
+          let { out_order_no } = res;
+          return new Promise(function(resolve, reject) {
+            
+          });
+        },
+        fail: function (err) {
+          console.error(err)
           wx.showToast({
-            title: '支付失败:' + aaa
+            title: '支付失败',
+            icon: 'none'
           })
         },
         success: function () {
           // 提示支付成功
-          wx.showToast({
-            title: '支付成功'
-          })
-          wx.redirectTo({
-            url: redirectUrl
-          });
+          if (res.code == 0) {
+            wx.showToast({
+              title: '支付成功',
+              icon: 'success'
+            })
+            wx.redirectTo({
+              url: redirectUrl
+            });
+          }          
         }
       })
     } else {

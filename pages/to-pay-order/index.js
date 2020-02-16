@@ -90,22 +90,7 @@ Page({
   remarkChange(e){
     this.data.remark = e.detail.value
   },
-  goCreateOrder(){
-    wx.requestSubscribeMessage({
-      tmplIds: ['ITVuuD_cwYN-5BjXne8cSktDo43xetj0u-lpvFZEQQs',
-        'dw9Tzh9r0sw7Gjab0ovQJx3bP3gdXmF_FZvpnxPd6hc'],
-      success(res) {
-        
-      },
-      fail(e) {
-        console.error(e)
-      },
-      complete: (e) => {
-        this.createOrder(true)
-      },
-    })
-  },
-  createOrder: function (e) {
+  goCreateOrder: function (e) {
     var that = this;
     var loginToken = wx.getStorageSync('token') // 用户登录 token
     var remark = this.data.remark; // 备注信息

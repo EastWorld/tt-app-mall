@@ -17,18 +17,18 @@
 }
 
 .btn-view {
-  text-align: right;
-  height: 70rpx;
+  height: 88rpx;
   background-color: #e85654;
   padding-right:40rpx;
   padding-bottom:30rpx;  
+  width: 100vw;
+  display: flex;
+  flex-direction: row-reverse;
 }
 .btn-view .btn {
   border-color: #fff !important;
   color:#fff !important;
-}
-.btn-view .bth-right {
-  margin-left:20rpx;  
+  margin-right:20rpx;  
 }
 .btn-hover {
   border-color: #fff;

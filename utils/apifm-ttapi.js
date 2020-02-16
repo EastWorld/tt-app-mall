@@ -1,4 +1,4 @@
-const version = '4.0.0';
+const version = '4.1.0';
 var API_BASE_URL = 'https://api.it120.cc'
 var subDomain = 'tz'   // tz 请改为你自己后台的专属域名，教程：  https://www.it120.cc/help/qr6l4m.html
 
@@ -161,6 +161,12 @@ module.exports = {
   },
   wxpay: (data) => {
     return request('/pay/wx/wxapp', true, 'post', data)
+  },
+  ttpay: (data) => {
+    return request('/pay/tt/microapp', true, 'post', data)
+  },
+  ttpayQuery: (token, outTradeId) => {
+    return request('/pay/query', true, 'get', { token, outTradeId })
   },
   wxpaySaobei: (data) => {
     return request('/pay/lcsw/wxapp', true, 'post', data)
