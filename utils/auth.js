@@ -69,8 +69,7 @@ async function register(page) {
       let code = res.code; // 微信登录接口返回的 code 参数，下面注册接口需要用到
       tt.getUserInfo({
         success: function (res) {
-          let iv = res.iv;
-          let encryptedData = res.encryptedData;
+          console.log(res)
           let referrer = '' // 推荐人
           let referrer_storge = wx.getStorageSync('referrer');
           if (referrer_storge) {
@@ -79,8 +78,10 @@ async function register(page) {
           // 下面开始调用注册接口
           WXAPI.register_tt({
             code: code,
-            encryptedData: encryptedData,
-            iv: iv,
+            avatarUrl: res.userInfo.avatarUrl,
+            nickName: res.userInfo.nickName,
+            province: res.userInfo.province,
+            city: res.userInfo.city,
             referrer: referrer
           }).then(function (res) {
             _this.login(page);

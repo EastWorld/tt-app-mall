@@ -165,7 +165,7 @@ module.exports = {
   ttpay: (data) => {
     return request('/pay/tt/microapp', true, 'post', data)
   },
-  ttpayQuery: (token, outTradeId) => {
+  payQuery: (token, outTradeId) => {
     return request('/pay/query', true, 'get', { token, outTradeId })
   },
   wxpaySaobei: (data) => {
