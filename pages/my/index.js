@@ -66,8 +66,7 @@ Page({
       })
       return;
     }
-    var that = this;
-    WXAPI.bindMobileWxa(wx.getStorageSync('token'), e.detail.encryptedData, e.detail.iv).then(function (res) {
+    WXAPI.bindMobileTta(wx.getStorageSync('token'), e.detail.encryptedData, e.detail.iv).then(res => {
       if (res.code === 10002) {
         this.setData({
           wxlogin: false
@@ -75,20 +74,19 @@ Page({
         return
       }
       if (res.code == 0) {
-        wx.showToast({
+        tt.showToast({
           title: '绑定成功',
-          icon: 'success',
-          duration: 2000
+          icon: 'success'
         })
-        that.getUserApiInfo();
+        this.getUserApiInfo();
       } else {
-        wx.showModal({
+        tt.showModal({
           title: '提示',
-          content: '绑定失败',
+          content: res.msg,
           showCancel: false
         })
       }
-    })
+    })  
   },
   getUserApiInfo: function () {
     var that = this;

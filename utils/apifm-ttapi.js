@@ -399,6 +399,11 @@ module.exports = {
       token, encryptedData, iv, pwd
     })
   },
+  bindMobileTta: (token, encryptedData, iv, pwd = '') => {
+    return request('/user/tt/microapp/bindMobile', true, 'post', {
+      token, encryptedData, iv, pwd
+    })
+  },
   bindMobileSms: (token, mobile, code, pwd = '') => {
     return request('/user/m/bind-mobile', true, 'post', {
       token, mobile, code, pwd

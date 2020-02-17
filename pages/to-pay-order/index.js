@@ -220,7 +220,7 @@ Page({
       isNeedLogistics: isNeedLogistics,
       goodsJsonStr: goodsJsonStr
     });
-    this.createOrder();
+    this.goCreateOrder();
   },
   addAddress: function () {
     wx.navigateTo({

@@ -96,7 +96,9 @@ Page({
     }).then(res => {
       if (res.code === 0){
         that.setData({
-          goodsRecommend: res.data
+          goodsRecommend: res.data.filter(ele => {
+            return ele.id != 235853 && ele.id != 122843
+          })
         })
       }      
     })
@@ -160,6 +162,9 @@ Page({
       goods = this.data.goods
     }
     for (var i = 0; i < res.data.length; i++) {
+      if (res.data[i].id == 235853 || res.data[i].id == 122843) {
+        continue;
+      }
       goods.push(res.data[i]);
     }
     this.setData({

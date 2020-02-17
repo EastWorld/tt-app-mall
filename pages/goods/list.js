@@ -54,7 +54,9 @@ Page({
     wx.hideLoading()
     if (res.code == 0) {
       this.setData({
-        goods: res.data,
+        goods: res.data.filter(ele => {
+          return ele.id != 235853 && ele.id != 122843
+        })
       })
     }
   },

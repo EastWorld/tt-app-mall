@@ -67,7 +67,9 @@ Page({
       return
     }
     this.setData({
-      currentGoods: res.data
+      currentGoods: res.data.filter(ele => {
+        return ele.id != 235853 && ele.id != 122843
+      })
     });
   },
   toDetailsTap: function(e) {

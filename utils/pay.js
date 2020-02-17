@@ -48,7 +48,8 @@ function wxpay(type, money, orderId, redirectUrl, data) {
             icon: 'none'
           })
         },
-        success: function () {
+        success: function (res) {
+          console.log(res)
           // 提示支付成功
           if (res.code == 0) {
             wx.showToast({
@@ -58,7 +59,12 @@ function wxpay(type, money, orderId, redirectUrl, data) {
             wx.redirectTo({
               url: redirectUrl
             });
-          }          
+          } else {
+            wx.showToast({
+              title: '取消支付',
+              icon: 'none'
+            })
+          }
         }
       })
     } else {
