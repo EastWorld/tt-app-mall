@@ -87,9 +87,10 @@ page,view,image,input {
 }
 /* flex重新构建菜单 */
 .menu-item {
-  width: 100vw;
+  width: 686rpx;
   height: 104rpx;
-  padding: 0 32rpx;
+  padding-left: 32rpx;
+  padding-right: 32rpx;
   background: #fff;
   display: flex;
   justify-content: space-between;

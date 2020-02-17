@@ -1,6 +1,6 @@
 <import src="/template/login/index.ttml" />
 
-<view tt:if="{{ rechargeOpen }}" class="asset">
+<view tt:if="{{ !ttVetOpen }}" class="asset">
   <view class='item'>
     <view>可用余额(元)</view>
     <view>{{balance}}</view>
@@ -14,7 +14,7 @@
     <view>{{totleConsumed}}</view>
   </view>
 </view>
-<view tt:if="{{ rechargeOpen }}" class='btn-view'>
+<view tt:if="{{ !ttVetOpen }}" class='btn-view'>
   <form bindsubmit="recharge" report-submit="true">
     <button class="btn" type="default" size="mini" form-type="submit" hover-class="btn-hover" plain="true">
       充值

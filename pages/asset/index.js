@@ -25,7 +25,7 @@ Page({
     withDrawlogs: undefined,
     depositlogs: undefined,
 
-    rechargeOpen: false // 是否开启充值[预存]功能
+    ttVetOpen: true // 是否开启充值[预存]功能
   },
 
   /**
@@ -41,14 +41,14 @@ Page({
         });
       }
     });
-    let rechargeOpen = wx.getStorageSync('RECHARGE_OPEN')
-    if (rechargeOpen && rechargeOpen == "1") {
-      rechargeOpen = true
+    let ttVetOpen = wx.getStorageSync('tt_vet_open')
+    if (ttVetOpen && ttVetOpen == "1") {
+      ttVetOpen = true
     } else {
-      rechargeOpen = false
+      ttVetOpen = false
     }
     this.setData({
-      rechargeOpen: rechargeOpen
+      ttVetOpen: ttVetOpen
     })
   },
 
