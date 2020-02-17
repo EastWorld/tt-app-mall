@@ -70,7 +70,6 @@ App({
             that.globalData.recharge_amount_min = config.value;
           }
         })
-        
       }
     })
     // 读取评价赠送多少积分

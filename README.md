@@ -12,7 +12,9 @@
 
 ## 扫码体验
 
-<img src="https://cdn.it120.cc/apifactory/2019/06/28/a8304003-3218-4a47-95cf-84d82ebdc07b.jpg" width="200px">
+请使用今日头条扫码访问小程序（抖音内测名额已满，等开放后在公布抖音码）
+
+<img src="https://dcdn.it120.cc/2020/02/17/bc2a3aed-9a9a-48cf-b61d-90baa79ca9c1.jpeg" width="200px">
 
 ## 其他开源模板
 
