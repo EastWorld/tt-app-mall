@@ -42,10 +42,10 @@ function wxpay(type, money, orderId, redirectUrl, data) {
           });
         },
         fail: function (err) {
-          console.error(err)
-          wx.showToast({
+          wx.showModal({
             title: '支付失败',
-            icon: 'none'
+            content: JSON.stringify(err),
+            showCancel: false
           })
         },
         success: function (res) {
