@@ -94,18 +94,25 @@ module.exports = {
       token
     })
   },
+  scoreExchangeCash: (token, deductionScore) => {
+    return request('/score/exchange/cash', true, 'post', {
+      deductionScore,
+      token
+    })
+  },
   scoreLogs: (data) => {
     return request('/score/logs', true, 'post', data)
   },
-  shareGroupGetScore: (referrer, encryptedData, iv) => {
+  shareGroupGetScore: (code, referrer, encryptedData, iv) => {
     return request('/score/share/wxa/group', true, 'post', {
+      code,
       referrer,
       encryptedData,
       iv
     })
   },
   kanjiaSet: (goodsId) => {
-    return request('/shop/goods/kanjia/set', true, 'get', { goodsId })
+    return request('/shop/goods/kanjia/set/v2', true, 'get', { goodsId })
   },
   kanjiaJoin: (token, kjid) => {
     return request('/shop/goods/kanjia/join', true, 'post', {
@@ -151,6 +158,11 @@ module.exports = {
       token
     })
   },
+  checkReferrer: (referrer) => {
+    return request('/user/check-referrer', true, 'get', {
+      referrer
+    })
+  },
   addTempleMsgFormid: (token, type, formId) => {
     return request('/template-msg/wxa/formId', true, 'post', {
       token, type, formId
@@ -177,30 +189,32 @@ module.exports = {
   alipay: (data) => {
     return request('/pay/alipay/semiAutomatic/payurl', true, 'post', data)
   },
-  login_tt: (code) => {
-    return request('/user/tt/microapp/login', true, 'post', {
-      code
+  login_wx: (code) => {
+    return request('/user/wxapp/login', true, 'post', {
+      code,
+      type: 2
+    })
+  },
+  loginWxaMobile: (code, encryptedData, iv) => {
+    return request('/user/wxapp/login/mobile', true, 'post', {
+      code,
+      encryptedData,
+      iv
     })
   },
   login_username: (data) => {
     return request('/user/username/login', true, 'post', data)
   },
-  login_email: (data) => {
-    return request('/user/email/login', true, 'post', data)
-  },
-  loginout: (token) => {
-    return request('/user/loginout', true, 'get', { token })
+  bindUsername: (token, username, pwd = '') => {
+    return request('/user/username/bindUsername', true, 'post', {
+      token, username, pwd
+    })
   },
   login_mobile: (mobile, pwd, deviceId = '', deviceName = '') => {
     return request('/user/m/login', true, 'post', {
       mobile, pwd, deviceId, deviceName
     })
   },
-  bindUsername: (token, username, pwd = '') => {
-    return request('/user/username/bindUsername', true, 'post', {
-      token, username, pwd
-    })
-  },  
   resetPwdUseMobileCode: (mobile, pwd, code) => {
     return request('/user/m/reset-pwd', true, 'post', {
       mobile, pwd, code
@@ -213,9 +227,6 @@ module.exports = {
   },
   register_complex: (data) => {
     return request('/user/wxapp/register/complex', true, 'post', data)
-  },
-  register_tt: (data) => {
-    return request('/user/tt/microapp/register', true, 'post', data)
   },
   register_simple: (data) => {
     return request('/user/wxapp/register/simple', true, 'post', data)
@@ -272,6 +283,14 @@ module.exports = {
   goodsFavList: (data) => {
     return request('/shop/goods/fav/list', true, 'post', data)
   },
+  myBuyGoodsHis: (data) => {
+    return request('/shop/goods/his/list', true, 'post', data)
+  },
+  myBuyGoodsHisDelete: (token, id = '', goodsId = '') => {
+    return request('/shop/goods/his/delete', true, 'post', {
+      token, id, goodsId
+    })
+  },
   goodsFavPut: (token, goodsId) => {
     return request('/shop/goods/fav/add', true, 'post', {
       token, goodsId
@@ -297,6 +316,12 @@ module.exports = {
   },
   myCoupons: (data) => {
     return request('/discounts/my', true, 'get', data)
+  },
+  mergeCouponsRules: () => {
+    return request('/discounts/merge/list', true, 'get')
+  },
+  mergeCoupons: (data) => {
+    return request('/discounts/merge', true, 'post', data)
   },
   fetchCoupons: (data) => {
     return request('/discounts/fetch', true, 'post', data)
@@ -360,6 +385,16 @@ module.exports = {
       goodsId: goodsIdArray.join()
     })
   },
+  goodsDefaultPingtuan: (goodsId) => {
+    return request('/shop/goods/pingtuan/default', true, 'get', {
+      goodsId
+    });
+  },
+  pingtuanMultilevel: (goodsId) => {
+    return request('/shop/goods/pingtuanMultilevel', true, 'get', {
+      goodsId
+    });
+  },
   pingtuanOpen: (token, goodsId) => {
     return request('/shop/goods/pingtuan/open', true, 'post', {
       goodsId,
@@ -399,9 +434,9 @@ module.exports = {
       token, encryptedData, iv, pwd
     })
   },
-  bindMobileTta: (token, encryptedData, iv, pwd = '') => {
-    return request('/user/tt/microapp/bindMobile', true, 'post', {
-      token, encryptedData, iv, pwd
+  bindMobileWxapp: (token, code, encryptedData, iv, pwd = '') => {
+    return request('/user/wxapp/bindMobile', true, 'post', {
+      token, code, encryptedData, iv, pwd
     })
   },
   bindMobileSms: (token, mobile, code, pwd = '') => {
@@ -430,10 +465,12 @@ module.exports = {
   orderList: (data) => {
     return request('/order/list', true, 'post', data)
   },
-  orderDetail: (token, id) => {
+  orderDetail: (token, id, hxNumber = '', peisongOrderId = '') => {
     return request('/order/detail', true, 'get', {
       id,
-      token
+      token,
+      hxNumber,
+      peisongOrderId
     })
   },
   orderDelivery: (token, orderId) => {
@@ -467,12 +504,7 @@ module.exports = {
     return request('/order/hx', true, 'post', {
       hxNumber
     })
-  },
-  orderStatistics: (token) => {
-    return request('/order/statistics', true, 'get', {
-      token
-    })
-  },
+  },  
   orderRefunds: (token, orderId) => {
     return request('/order/refund', true, 'get', {
       token,
@@ -505,6 +537,9 @@ module.exports = {
   cashLogs: (data) => {
     return request('/user/cashLog', true, 'post', data)
   },
+  cashLogsV2: (data) => {
+    return request('/user/cashLog/v2', true, 'post', data)
+  },
   payLogs: (data) => {
     return request('/user/payLogs', true, 'post', data)
   },
@@ -532,19 +567,30 @@ module.exports = {
   fxCommisionLog: (data) => {
     return request('/saleDistribution/commision/log', true, 'post', data)
   },
-  ttaQrcode: (paramsJson, expireHours) => {
-    return request('/user/tt/microapp/qrcode', true, 'post', {
-      content: JSON.stringify(paramsJson),
-      expireHours
+  fxSaleroomRankTotal: (page, pageSize) => {
+    return request('/saleDistribution/sale-room-rank/total', true, 'get', {
+      page, pageSize
     })
   },
-  uploadFile: (tempFilePath) => {
+  fxSaleroomRankDaily: (page, pageSize, day) => {
+    return request('/saleDistribution/sale-room-rank/daily', true, 'get', {
+      page, pageSize, day
+    })
+  },
+  wxaQrcode: (data) => {
+    return request('/qrcode/wxa/unlimit', true, 'post', data)
+  },
+  uploadFile: (token, tempFilePath, expireHours = '') => {
     const uploadUrl = API_BASE_URL + '/' + subDomain + '/dfs/upload/file'
     return new Promise((resolve, reject) => {
       tt.uploadFile({
         url: uploadUrl,
         filePath: tempFilePath,
         name: 'upfile',
+        formData: {
+          'token': token,
+          expireHours
+        },
         success(res) {
           resolve(JSON.parse(res.data))
         },
@@ -566,16 +612,18 @@ module.exports = {
   refundApply: (data) => {
     return request('/order/refundApply/apply', true, 'post', data)
   },
-  refundApplyDetail: (token, orderId) => {
+  refundApplyDetail: (token, orderId, orderGoodsId = '') => {
     return request('/order/refundApply/info', true, 'get', {
       token,
-      orderId
+      orderId,
+      orderGoodsId
     })
   },
-  refundApplyCancel: (token, orderId) => {
+  refundApplyCancel: (token, orderId, orderGoodsId = '') => {
     return request('/order/refundApply/cancel', true, 'post', {
       token,
-      orderId
+      orderId,
+      orderGoodsId
     })
   },
   cmsCategories: () => {
@@ -643,7 +691,7 @@ module.exports = {
   },
   shopSubApply: (data) => {
     return request('/shop/subshop/apply', true, 'post', data)
-  },  
+  },
   addComment: (data) => {
     return request('/comment/add', true, 'post', data)
   },
@@ -653,6 +701,9 @@ module.exports = {
   modifyUserInfo: (data) => {
     return request('/user/modify', true, 'post', data)
   },
+  modifyUserPassword: (token, pwdOld, pwdNew) => {
+    return request('/user/modify/password', true, 'post', { token, pwdOld, pwdNew })
+  },
   uniqueId: (type = '') => {
     return request('/uniqueId/get', true, 'get', { type })
   },
@@ -660,7 +711,7 @@ module.exports = {
     return request('/barcode/info', true, 'get', { barcode })
   },
   luckyInfo: (id) => {
-    return request('/luckyInfo/info', true, 'get', { id })
+    return request('/luckyInfo/info/v2', true, 'get', { id })
   },
   luckyInfoJoin: (id, token) => {
     return request('/luckyInfo/join', true, 'post', { id, token })
@@ -734,7 +785,10 @@ module.exports = {
   },
   idcardCheck: (token, name, idCardNo) => {
     return request('/user/idcard', true, 'post', { token, name, idCardNo })
-  },  
+  },
+  loginout: (token) => {
+    return request('/user/loginout', true, 'get', { token })
+  },
   userLevelList: (data) => {
     return request('/user/level/list', true, 'post', data)
   },
@@ -775,8 +829,8 @@ module.exports = {
       code, encryptedData, iv
     })
   },
-  scoreDeductionRules: () => {
-    return request('/score/deduction/rules', true, 'get', {})
+  scoreDeductionRules: (type = '') => {
+    return request('/score/deduction/rules', true, 'get', { type })
   },
   voteItems: (data) => {
     return request('/vote/items', true, 'post', data)
@@ -840,14 +894,20 @@ module.exports = {
   },
   register_email: (data) => {
     return request('/user/email/register', true, 'post', data)
-  },  
+  },
+  login_email: (data) => {
+    return request('/user/email/login', true, 'post', data)
+  },
   bindEmail: (token, email, code, pwd = '') => {
     return request('/user/email/bindUsername', true, 'post', {
       token, email, code, pwd
     })
+  },  
+  goodsDynamic: (type) => {
+    return request('/site/goods/dynamic', true, 'get', { type })
   },
-  siteStatistics: () => {
-    return request('/site/statistics', true, 'get')
+  fetchSubDomainByWxappAppid: (appid) => {
+    return request('/subdomain/appid/wxapp', false, 'get', { appid })
   },
   cmsArticleFavPut: (token, newsId) => {
     return request('/cms/news/fav/add', true, 'post', { token, newsId })
@@ -887,6 +947,83 @@ module.exports = {
   shippingCarInfoRemoveAll: (token) => {
     return request('/shopping-cart/empty', true, 'post', {
       token
+    })
+  },
+  growthLogs: (data) => {
+    return request('/growth/logs', true, 'post', data)
+  },
+  exchangeScoreToGrowth: (token, deductionScore) => {
+    return request('/growth/exchange', true, 'post', {
+      token, deductionScore
+    })
+  },
+  wxaMpLiveRooms: () => {
+    return request('/wx/live/rooms', true, 'get')
+  },
+  wxaMpLiveRoomHisVedios: (roomId) => {
+    return request('/wx/live/his', true, 'get', {
+      roomId
+    })
+  },
+  peisongMembers: (data) => {
+    return request('/peisong/member/list', true, 'post', data)
+  },
+  peisongMemberInfo: (token) => {
+    return request('/peisong/member/info', true, 'get', {
+      token
+    })
+  },
+  peisongMemberChangeWorkStatus: (token) => {
+    return request('/peisong/member/change-work-status', true, 'post', {
+      token
+    })
+  },
+  peisongOrdersGrabbing: (token) => {
+    return request('/peisong/order/grabbing', true, 'get', { token })
+  },
+  peisongOrders: (data) => {
+    return request('/peisong/order/list', true, 'post', data)
+  },
+  peisongOrderGrab: (data) => {
+    return request('/peisong/order/grab', true, 'post', data)
+  },
+  peisongOrderDetail: (token, id) => {
+    return request('/peisong/order/detail', true, 'get', { token, id })
+  },
+  peisongOrderEstimatedCompletionTime: (data) => {
+    return request('/peisong/order/estimatedCompletionTime', true, 'post', data)
+  },
+  peisongStartService: (data) => {
+    return request('/peisong/order/start-service', true, 'post', data)
+  },
+  peisongEndService: (data) => {
+    return request('/peisong/order/end-service', true, 'post', data)
+  },
+  peisongOrderAllocation: (token, id, uid) => {
+    return request('/peisong/order/allocation', true, 'post', {
+      token, id, uid
+    })
+  },
+  siteStatistics: () => {
+    return request('/site/statistics', true, 'get')
+  },
+  orderStatistics: (token) => {
+    return request('/order/statistics', true, 'get', {
+      token
+    })
+  },
+  siteStatisticsSaleroom: (data) => {
+    return request('/site/statistics/saleroom', true, 'get', data)
+  },
+  bonusLog: (data) => {
+    return request('/bonusLog/list', true, 'post', data)
+  },
+  register_tt: (data) => {
+    return request('/user/tt/microapp/register', true, 'post', data)
+  },
+  login_tt: (code) => {
+    return request('/user/tt/microapp/login', true, 'post', {
+      code
     })
   },
 }
